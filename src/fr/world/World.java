@@ -11,7 +11,7 @@ import fr.entity.character.Player;
 public class World extends BasicGameState{
 	
 	public enum direction {HAUT,DROITE,BAS,GAUCHE};
-	Player player;
+	private static Player player;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
@@ -42,12 +42,12 @@ public class World extends BasicGameState{
 		return 0;
 	}
 
-	public Player getPlayer() {
+	public static Player getPlayer() {
 		return player;
 	}
 
-	public void setPlayer(Player player) {
-		this.player = player;
+	public static void setPlayer(Player playerP) {
+		player = playerP;
 	}
 	
 	
