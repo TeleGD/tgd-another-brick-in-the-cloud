@@ -6,32 +6,35 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import fr.entity.character.Player;
+
 public class World extends BasicGameState{
 	
 	public enum direction {HAUT,DROITE,BAS,GAUCHE};
+	Player player;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
-		//TODO
+		player = new Player();
 	}
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-		//TODO
+		player.render(container, game, g);
 	}
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-		//TODO
+		player.update(container, game, delta);
 	}
 	
 	public void keyReleased(int key, char c) {
-		//TODO
+		player.keyReleased(key, c);
 	}
 
 
 	public void keyPressed(int key, char c) {
-		//TODO
+		player.keyPressed(key, c);
 	}
 
 	@Override
