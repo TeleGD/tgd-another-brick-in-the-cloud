@@ -2,6 +2,7 @@ package fr.entity.character;
 
 import java.util.Random;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -39,6 +40,7 @@ public class Enemy extends Movable implements Rectangle {
 	
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException { // gestion de l'affichage
+		g.setColor(Color.magenta);
 		g.fillRect((float)x, (float)y, (float)width, (float)height);
 	}
 	
@@ -47,7 +49,6 @@ public class Enemy extends Movable implements Rectangle {
 		frameTest ++;
 		limitX();
 		damageEnemy();
-		testEnemy();
 		deathEnemy();
 		backX();
 	}
@@ -87,12 +88,6 @@ public class Enemy extends Movable implements Rectangle {
 		}
 	}
 
-	public void testEnemy(){ //test de la mort
-		if (frameTest==1000)
-		{
-			hp--;
-		}
-	}
 	
 	public void backX(){ //gère la collision sur les bords de la map
 		if (x>768 || x<0)
