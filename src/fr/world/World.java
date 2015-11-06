@@ -1,5 +1,7 @@
 package fr.world;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -12,20 +14,28 @@ public class World extends BasicGameState{
 	
 	public enum direction {HAUT,DROITE,BAS,GAUCHE};
 	private static Player player;
+	private static ArrayList<Enemy> enemies;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
 		player = new Player();
+		enemies = new ArrayList<Enemy>();
 	}
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		player.render(container, game, g);
+		for(int i = 0; i<enemies.getsize();i++){
+			enemies.get(i).render(container, game, g);
+		}
 	}
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		player.update(container, game, delta);
+		for(int i = 0; i<enemies.getsize();i++){
+			enemies.get(i).update(container, game, delta);
+		}
 	}
 	
 	public void keyReleased(int key, char c) {
@@ -50,6 +60,9 @@ public class World extends BasicGameState{
 		player = playerP;
 	}
 	
+	public static ArrayList<Enemy> getEnemies(){
+		return enemies;
+	}
 	
 	
 }
