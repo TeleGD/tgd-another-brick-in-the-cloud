@@ -8,7 +8,9 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+
 import fr.entity.character.Player;
+import fr.entity.character.Enemy;
 
 public class World extends BasicGameState{
 	
@@ -25,7 +27,7 @@ public class World extends BasicGameState{
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		player.render(container, game, g);
-		for(int i = 0; i<enemies.getsize();i++){
+		for(int i = 0; i<enemies.size();i++){
 			enemies.get(i).render(container, game, g);
 		}
 	}
@@ -33,7 +35,7 @@ public class World extends BasicGameState{
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		player.update(container, game, delta);
-		for(int i = 0; i<enemies.getsize();i++){
+		for(int i = 0; i<enemies.size();i++){
 			enemies.get(i).update(container, game, delta);
 		}
 	}
