@@ -17,11 +17,14 @@ public class World extends BasicGameState{
 	public enum direction {HAUT,DROITE,BAS,GAUCHE};
 	private static Player player;
 	private static ArrayList<Enemy> enemies;
+	private static Enemy enemyTest;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
 		player = new Player();
 		enemies = new ArrayList<Enemy>();
+		enemyTest = new Enemy();
+		
 	}
 
 	@Override

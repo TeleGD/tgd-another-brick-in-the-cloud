@@ -14,7 +14,7 @@ import fr.world.World;
 
 public class Enemy extends Movable implements Rectangle {
 	
-	private int speedMax; // Définis la vitesse max que les ennemis atteindront.
+	private double speedMax; // Définit la vitesse max que les ennemis atteindront.
 	private int hp; // Points de vie des ennemis, à 1 pour commencer.
 	private static int numberEnemy = 0; // On numérote nos ennemis pour pouvoir gérer leur suppression via une liste.
 	private int id;
@@ -22,31 +22,34 @@ public class Enemy extends Movable implements Rectangle {
 	private int frameTest = 0;
 	
 	public Enemy () {
-	super(); // récupère les variables de la classe Movable
+	super(); // récupère les attributs de la classe Movable
 	hp = 1; // On donne une valeur à hp
 	x = r.nextInt(800-(int)width); // On place l'ennemi à une position aléatoire sur l'axe x
 	testXPlayer(); // On vérifie qu'on ne fait pas spawn SUR le joueur (reste à gérer les obstacles)
-	y = 600-32-(int)height; // On pose l'ennmi sur le sol
+	y = 600-32-(int)height; // On pose l'ennemi sur le sol
 	accelX = 0.02*r.nextDouble() + 0.005; // Accélération aléatoire définie ici (entre 0.025 et 0.005)
-	speedMax = r.nextInt(14)+1; // vitesse max aléatoire définie ici entre 1 et 15 (ou 14)
-	isMoving = true; // Un booleen au cas ou le joueur puisse arrêter le déplacement de l'ennemi
+	speedMax = (r.nextInt(14))/500 + 0.2; // vitesse max aléatoire définie ici entre 1 et 15 (ou 14)
+	isMoving = true; // Un booleen au cas où le joueur puisse arrêter le déplacement de l'ennemi
 	World.getEnemies().add(this);
 	id = numberEnemy;
-	numberEnemy+=1;
+	numberEnemy++;
 	}
-	Random r = new Random(); // On se créé une variable pour utiliser la fonction random
+	
+	Random r = new Random(); // On se crée une variable pour utiliser la fonction random
 	
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException { // gestion de l'affichage
+		g.fillRect((float)x, (float)y, (float)width, (float)height);
 	}
 	
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException { // gestion des updates à chaque frame
 		moveX(delta);
-		frameTest += 1;
+		frameTest ++;
 		limitX();
 		damageEnemy();
 		testEnemy();
 		deathEnemy();
+		backX();
 	}
 	
 	public void testXPlayer(){ //permet de reset position au spawn si collision ac joueur : OK
@@ -55,39 +58,47 @@ public class Enemy extends Movable implements Rectangle {
 		}
 	}
 	
-	public void limitX(){
-		if (speedX<speedMax)
+	public void limitX(){ //limite la vitesse
+		if (Math.abs(speedX)<speedMax)
 		{
 			speedX+=accelX;
 		}
 	}
 	
-	public void damageEnemy(){
+	public void damageEnemy(){ //diminue les points de vie si on subit des dégâts
 		if (Collisions.isCollisionRectRect(this, World.getPlayer()))
 		{
 			if (y>= World.getPlayer().getY())
 			{
-				hp -= 1;
+				hp--;
 			}
 		}
 	}
 	
-	public void deathEnemy(){
+	public void deathEnemy(){ //on meurt si on a plus de points de vie, supprime l'entité
 		if (hp <= 0)
 		{
 			i = 0;
 			while (World.getEnemies().get(i).id!=id)
 			{
-				i+=1;
+				i++;
 			}
 			World.getEnemies().remove(World.getEnemies().get(i));// Enlève l'ennemi avec l'id "id" de la liste ennemis
 		}
 	}
 
-	public void testEnemy(){
+	public void testEnemy(){ //test de la mort
 		if (frameTest==1000)
 		{
-			hp -= 1;
+			hp--;
+		}
+	}
+	
+	public void backX(){ //gère la collision sur les bords de la map
+		if (x>768 || x<0)
+		{
+			accelX=-accelX;
+			speedX=-speedX;
 		}
 	}
 	
