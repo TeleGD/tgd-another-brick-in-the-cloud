@@ -1,0 +1,8 @@
+CDC Ennemi:
+
+- créer une classe Ennemy
+- gérer déplacement (first), initiative (maybe)
+- points de vie
+- gestion des dégâts et de la mort
+- projectiles (maybe)
+- 
