@@ -27,7 +27,7 @@ public class World extends BasicGameState{
 		enemies = new ArrayList<Enemy>();
 		enemyTest = new Enemy();
 		projectiles = new ArrayList<Weapon>();
-		decor = new Decor("assets/box.png","assets/background.png");
+		decor = new Decor("assets/brique.png","assets/background.png");
 		decor.init(container,game);
 		
 	}
@@ -46,6 +46,8 @@ public class World extends BasicGameState{
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+		decor.updateCharacterPosition((int)player.getX(), (int)player.getY());
+		
 		decor.update(container,game,delta);
 		player.update(container, game, delta);
 		for(int i = 0; i<enemies.size();i++){

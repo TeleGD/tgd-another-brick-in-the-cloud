@@ -89,7 +89,7 @@ public class Decor extends BasicGameState {
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		//TODO
 		float speed = 1f;
-		if (cameraMove)
+		/*if (cameraMove)
 		{
 			//modif de la position de la caméra
 			switch (cameraDirection) {
@@ -98,7 +98,7 @@ public class Decor extends BasicGameState {
 		        case BAS:  characterPosY+=delta*speed; break;
 		        case DROITE: characterPosX+=delta*speed; break;
 		    }
-		}
+		}*/
 		//maj du fond d'écran
 		background.setPosition(characterPosX, characterPosY);
 	}
