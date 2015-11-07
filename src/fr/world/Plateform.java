@@ -26,18 +26,17 @@ public class Plateform extends BasicGameState implements Rectangle {
 	public double getY()
 	{
 		return positionY;
-		
 	}
 	
 	public double getWidth()
 	{
-		return sizeX;
+		return sizeX*32;
 		
 	}
 	
 	public double getHeight()
 	{
-		return sizeY;
+		return sizeY*32;
 	}
 	
 	public void setPosition(float newPositionX,float newPositionY)
@@ -62,6 +61,7 @@ public class Plateform extends BasicGameState implements Rectangle {
 		this.positionX = positionX;
 		this.positionY = positionY;
 		texture=tex;
+		World.getPlateforms().add(this);
 	}
 
 	@Override
