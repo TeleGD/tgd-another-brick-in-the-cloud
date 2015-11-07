@@ -8,8 +8,10 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import fr.entity.weapon.Weapon;
+import fr.util.Collisions;
 import fr.util.Movable;
 import fr.util.Rectangle;
+import fr.world.World;
 
 public class Player extends Movable implements Rectangle {
 	
@@ -17,8 +19,12 @@ public class Player extends Movable implements Rectangle {
 	private boolean keyPressedRight;
 	private boolean lastKeyPressed;
 	private boolean direction;
+	private boolean noDamage; // pour la frame d'invulnérabilité
+	private boolean end;
 	private int stillPressed;
 	private int stockWeapon;
+	private int life;
+	private int compteurFrame;
 	
 	public Player() {
 		x = 384;
@@ -27,6 +33,7 @@ public class Player extends Movable implements Rectangle {
 		speedY = 0;
 		accelX = 0;
 		accelY = 0.06;
+		life = 3;   
 		width = 32;
 		height = 32;
 		jump = false;
@@ -40,6 +47,9 @@ public class Player extends Movable implements Rectangle {
 		stillPressed = 0;// 0 = rien      1 = gauche toujours presse      2 = droite toujours presse
 		direction = true;  // true = droite false = gauche
 		stockWeapon = 777;
+		noDamage = false;
+		compteurFrame=0;
+		end = false;
 	}
 
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
@@ -90,12 +100,28 @@ public class Player extends Movable implements Rectangle {
 			jump = false;
 		}
 
-		if (y >= 600 - height) {// le perso est au sol
-			y = 600 - height;
+		if (y >= 600 - height-32) {// le perso est au sol
+			y = 600 - height-32;
 			jumpLeft = jumpMax;
 		}
 		if (y < 0) {// le perso a mal a la tete
 			y = 0;
+		}
+		
+		// dégats
+		if ( noDamage ){
+			compteurFrame+=1;
+		}		
+		if(compteurFrame==120){
+			noDamage = false;
+			compteurFrame = 0;
+		}	
+		damagePlayer();
+		
+		//game over
+		if ( end ){
+			System.out.println("mohd");
+			container.exit();
 		}
 	}
 
@@ -149,4 +175,14 @@ public class Player extends Movable implements Rectangle {
 		}
 	}
 	
+	void damagePlayer(){
+		if(World.getEnemies().size() >= 1)
+		if (Collisions.isCollisionRectRect(this, World.getEnemies().get(0)) && !noDamage ){
+			life -= 1;
+			noDamage = true;
+		}
+		if ( life == 0 ){
+			end = true;
+		}
+	}
 }
