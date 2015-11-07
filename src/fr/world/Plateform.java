@@ -61,6 +61,7 @@ public class Plateform extends BasicGameState implements Rectangle {
 		this.positionX = positionX;
 		this.positionY = positionY;
 		texture=tex;
+		World.getPlateforms().add(this);
 	}
 
 	@Override
