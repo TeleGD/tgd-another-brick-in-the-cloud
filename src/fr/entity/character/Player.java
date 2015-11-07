@@ -19,9 +19,12 @@ public class Player extends Movable implements Rectangle {
 	private boolean keyPressedRight;
 	private boolean lastKeyPressed;
 	private boolean direction;
+	private boolean noDamage; // pour la frame d'invulnérabilité
+	private boolean end;
 	private int stillPressed;
 	private int stockWeapon;
 	private int life;
+	private int compteurFrame;
 	
 	public Player() {
 		x = 384;
@@ -44,6 +47,9 @@ public class Player extends Movable implements Rectangle {
 		stillPressed = 0;// 0 = rien      1 = gauche toujours presse      2 = droite toujours presse
 		direction = true;  // true = droite false = gauche
 		stockWeapon = 777;
+		noDamage = false;
+		compteurFrame=0;
+		end = false;
 	}
 
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
@@ -101,6 +107,22 @@ public class Player extends Movable implements Rectangle {
 		if (y < 0) {// le perso a mal a la tete
 			y = 0;
 		}
+		
+		// dégats
+		if ( noDamage ){
+			compteurFrame+=1;
+		}		
+		if(compteurFrame==120){
+			noDamage = false;
+			compteurFrame = 0;
+		}	
+		damagePlayer();
+		
+		//game over
+		if ( end ){
+			System.out.println("mohd");
+			container.exit();
+		}
 	}
 
 	public void keyReleased(int key, char c) {
@@ -154,8 +176,13 @@ public class Player extends Movable implements Rectangle {
 	}
 	
 	void damagePlayer(){
-		if (Collisions.isCollisionRectRect(this, World.getEnemies().get(0))){
+		if(World.getEnemies().size() >= 1)
+		if (Collisions.isCollisionRectRect(this, World.getEnemies().get(0)) && !noDamage ){
 			life -= 1;
+			noDamage = true;
+		}
+		if ( life == 0 ){
+			end = true;
 		}
 	}
 }

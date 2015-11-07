@@ -12,6 +12,9 @@ import fr.entity.character.Enemy;
 import fr.entity.character.Player;
 import fr.entity.weapon.Weapon;
 
+
+//TEST 
+
 public class World extends BasicGameState{
 	
 	public enum direction {HAUT,DROITE,BAS,GAUCHE};
@@ -46,6 +49,8 @@ public class World extends BasicGameState{
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+		decor.updateCharacterPosition((int)player.getX(), (int)player.getY());
+		
 		decor.update(container,game,delta);
 		player.update(container, game, delta);
 		for(int i = 0; i<enemies.size();i++){
