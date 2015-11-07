@@ -13,11 +13,17 @@ import fr.world.World;
 
 public class Weapon extends Movable implements Rectangle {
 	
-
-    public Weapon(double X, double Y) {
-    	x=X+32;
+    public Weapon(double X, double Y, boolean direction) {
     	y=Y+10;
-    	speedX = 1;
+    	if ( direction ){
+    		x = X+32;
+    		speedX = 1;
+    	}
+    	if ( !direction ){
+    		x = X;
+    		speedX = -1;
+    	}
+    	
     	width = 11;
 		height = 5;
 		World.getProjectiles().add(this);
@@ -34,6 +40,7 @@ public class Weapon extends Movable implements Rectangle {
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+		
 		moveX(delta);
 	}
 

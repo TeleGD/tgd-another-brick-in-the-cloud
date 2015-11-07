@@ -16,12 +16,13 @@ public class Player extends Movable implements Rectangle {
 	private boolean keyPressedLeft;
 	private boolean keyPressedRight;
 	private boolean lastKeyPressed;
+	private boolean direction;
 	private int stillPressed;
-	 
+	private int stockWeapon;
 	
 	public Player() {
 		x = 384;
-		y = 536;
+		y = 0;
 		speedX = 0;
 		speedY = 0;
 		accelX = 0;
@@ -37,7 +38,8 @@ public class Player extends Movable implements Rectangle {
 		keyPressedRight = false;
 		lastKeyPressed = false; // false = gauche true = droite
 		stillPressed = 0;// 0 = rien      1 = gauche toujours presse      2 = droite toujours presse
-		
+		direction = true;  // true = droite false = gauche
+		stockWeapon = 777;
 	}
 
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
@@ -47,6 +49,8 @@ public class Player extends Movable implements Rectangle {
 
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		speedY += accelY;
+		
+		// mouvements droite gauche
 		stillPressed = 0;
 		if (lastKeyPressed) {
 			if(keyPressedLeft ){
@@ -59,8 +63,8 @@ public class Player extends Movable implements Rectangle {
 			}
 			keyPressedRight = false;
 		}
-		if (keyPressedLeft)  { speedX = -0.5; }
-		if (keyPressedRight) {	speedX = 0.5; }
+		if (keyPressedLeft)  { speedX = -0.5; direction = false; }
+		if (keyPressedRight) {	speedX = 0.5; direction = true; }
 		
 		switch(stillPressed){
 		case 1 :
@@ -137,7 +141,10 @@ public class Player extends Movable implements Rectangle {
 			
 		//attaque
 		case Input.KEY_A:
-			new Weapon(this.x,this.y);
+			if(stockWeapon>0){
+				new Weapon(this.x,this.y,direction);
+				stockWeapon -= 1;
+			}
 			break;
 		}
 	}
