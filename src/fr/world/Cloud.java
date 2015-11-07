@@ -9,13 +9,13 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class Background extends BasicGameState {
-
+public class Cloud extends BasicGameState{
 	private float positionX;
 	private float positionY;
 	private float charX;
 	private float charY;
 	private Image texture;
+	float speed;
 	
 	float getX()
 	{
@@ -41,11 +41,12 @@ public class Background extends BasicGameState {
 		charY = newCharY;
 	}
 
-	public Background(float positionX, float positionY, Image tex){
+	public Cloud(float positionX, float positionY, Image tex, float speed){
 		
 		this.positionX = positionX;
 		this.positionY = positionY;
 		this.texture = tex;
+		this.speed = speed;
 	}
 
 	@Override
@@ -56,10 +57,6 @@ public class Background extends BasicGameState {
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		//TODO
-		/*int idImage=(int)(positionX/1.2f/800);
-		for (int i=idImage-2;i<idImage+2;i++)
-			g.drawImage(texture, (float)positionX/1.2f+i*800, (float)positionY-300);*/
-		
 		int origin = (int)charX / 800;
 		for (int i = -1 + origin; i < 2 + origin; ++i)
 			g.drawImage(texture, (float)positionX + 800*i, (float)positionY-300);
@@ -68,6 +65,9 @@ public class Background extends BasicGameState {
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		//TODO
+		positionX += delta * speed;
+		
+		positionX = (int)positionX % 800;
 	}
 	
 	public void keyReleased(int key, char c) {
@@ -83,5 +83,4 @@ public class Background extends BasicGameState {
 	public int getID() {
 		return 0;
 	}
-
 }

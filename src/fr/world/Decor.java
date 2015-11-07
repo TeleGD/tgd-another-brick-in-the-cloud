@@ -28,11 +28,13 @@ public class Decor extends BasicGameState {
 	private Direction cameraDirection;
 	private boolean cameraMove;
 	private Image plateformTexture;
-	private Image backgroundTexture;
 	private Background background;
+	private Cloud backgroundCloud;
+	private Cloud backgroundCloud2;
 	
 	
-	public Decor(String plateformTexturePath, String backgroundTexturePath) throws SlickException
+	
+	public Decor(String plateformTexturePath, String backgroundTexturePath, String cloudTexturePath) throws SlickException
 	{
 		plateforms = new Vector<Plateform>();	//ensemble des plateformes crées
 		characterPosX=0;	//variable servant pour la caméra
@@ -40,9 +42,9 @@ public class Decor extends BasicGameState {
 		cameraDirection = Direction.HAUT;	//Direction du défilement de caméra
 		cameraMove = false;		// caméra en train de bouger dans cameraDirection
 		plateformTexture = new Image(plateformTexturePath);	// chargement image pour plateforme
-		backgroundTexture = new Image(backgroundTexturePath);// chargement image pour fond d'écran
-		background = new Background(characterPosX, characterPosY, backgroundTexture);
-		
+		background = new Background(characterPosX, characterPosY, new Image(backgroundTexturePath));
+		backgroundCloud = new Cloud(characterPosX, characterPosY, new Image(cloudTexturePath), 0.1f);
+		backgroundCloud2 = new Cloud(characterPosX - 100, characterPosY, new Image(cloudTexturePath), 0.12f);
 		
 	}
 	
@@ -79,6 +81,8 @@ public class Decor extends BasicGameState {
 		
 		//rendu du fond d'écran
 		background.render(container, game, g);
+		backgroundCloud.render(container, game, g);
+		backgroundCloud2.render(container, game, g);
 		
 		//rendu des plateformes
 		for(int i=0;i<plateforms.size();i++)
@@ -100,7 +104,15 @@ public class Decor extends BasicGameState {
 		    }
 		}*/
 		//maj du fond d'écran
-		background.setPosition(characterPosX, characterPosY);
+		background.setPosition(background.getX(), characterPosY);
+		background.setCharacterPosition(characterPosX, characterPosY);
+		background.update(container, game, delta);
+		backgroundCloud.setPosition(backgroundCloud.getX(), characterPosY + 20);
+		backgroundCloud.setCharacterPosition(characterPosX, characterPosY);
+		backgroundCloud.update(container, game, delta);
+		backgroundCloud2.setPosition(backgroundCloud2.getX(), characterPosY + 100);
+		backgroundCloud2.setCharacterPosition(characterPosX, characterPosY);
+		backgroundCloud2.update(container, game, delta);
 	}
 	
 	public void keyReleased(int key, char c) {
