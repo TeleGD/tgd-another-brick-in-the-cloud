@@ -26,7 +26,6 @@ public class Plateform extends BasicGameState implements Rectangle {
 	public double getY()
 	{
 		return positionY;
-		
 	}
 	
 	public double getWidth()
