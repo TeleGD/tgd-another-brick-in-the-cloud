@@ -6,6 +6,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import fr.world.World;
+import fr.menu.Menu;
+import fr.menu.GameOver;
 
 public class Game extends StateBasedGame {
 	
@@ -25,6 +27,8 @@ public class Game extends StateBasedGame {
 
 	@Override
 	public void initStatesList(GameContainer container) throws SlickException {
+		addState(new Menu());
+		addState(new GameOver());
 		addState(new World());
 	}
 

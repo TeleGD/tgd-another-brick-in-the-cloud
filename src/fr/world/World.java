@@ -21,6 +21,7 @@ public class World extends BasicGameState{
 	private static ArrayList<Weapon> projectiles;
 	private static ArrayList<Plateform> plateforms;
 	private Decor decor;
+	public static int ID = 0;
 	
 	
 	@Override
@@ -75,7 +76,7 @@ public class World extends BasicGameState{
 
 	@Override
 	public int getID() {
-		return 0;
+		return ID;
 	}
 
 	public static Player getPlayer() {
