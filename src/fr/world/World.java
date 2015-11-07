@@ -18,12 +18,14 @@ public class World extends BasicGameState{
 	private static Player player;
 	private static ArrayList<Enemy> enemies;
 	private static Enemy enemyTest;
+	private static ArrayList<Weapon> projectiles;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
 		player = new Player();
 		enemies = new ArrayList<Enemy>();
 		enemyTest = new Enemy();
+		projectiles = new ArrayList<Weapon>();
 		
 	}
 
@@ -33,6 +35,9 @@ public class World extends BasicGameState{
 		for(int i = 0; i<enemies.size();i++){
 			enemies.get(i).render(container, game, g);
 		}
+		for(int i = 0; i<projectiles.size();i++){
+			projectiles.get(i).render(container, game, g);
+		}
 	}
 
 	@Override
@@ -40,6 +45,9 @@ public class World extends BasicGameState{
 		player.update(container, game, delta);
 		for(int i = 0; i<enemies.size();i++){
 			enemies.get(i).update(container, game, delta);
+		}
+		for(int i = 0; i<projectiles.size();i++){
+			projectiles.get(i).update(container, game, delta);
 		}
 	}
 	
@@ -67,6 +75,9 @@ public class World extends BasicGameState{
 	
 	public static ArrayList<Enemy> getEnemies(){
 		return enemies;
+	}
+	public static ArrayList<Weapon> getProjectiles(){
+		return projectiles;
 	}
 	
 	
