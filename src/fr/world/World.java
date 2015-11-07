@@ -12,6 +12,9 @@ import fr.entity.character.Enemy;
 import fr.entity.character.Player;
 import fr.entity.weapon.Weapon;
 
+
+//TEST 
+
 public class World extends BasicGameState{
 	
 	public enum direction {HAUT,DROITE,BAS,GAUCHE};
