@@ -13,8 +13,6 @@ public class Background extends BasicGameState {
 
 	private float positionX;
 	private float positionY;
-	private float charX;
-	private float charY;
 	private Image texture;
 	
 	float getX()
@@ -33,12 +31,6 @@ public class Background extends BasicGameState {
 	{
 		positionX = newPositionX;
 		positionY = newPositionY;
-	}
-	
-	void setCharacterPosition(float newCharX,float newCharY)
-	{
-		charX = newCharX;
-		charY = newCharY;
 	}
 
 	public Background(float positionX, float positionY, Image tex){
@@ -60,9 +52,9 @@ public class Background extends BasicGameState {
 		for (int i=idImage-2;i<idImage+2;i++)
 			g.drawImage(texture, (float)positionX/1.2f+i*800, (float)positionY-300);*/
 		
-		int origin = (int)charX / 800;
-		for (int i = -1 + origin; i < 2 + origin; ++i)
-			g.drawImage(texture, (float)positionX + 800*i, (float)positionY-300);
+		for(int i = (int)((positionX/800)-2);i<(positionX/800)+1;i++){
+			g.drawImage(texture, (800*i), (float)positionY-300);
+		}
 	}
 
 	@Override

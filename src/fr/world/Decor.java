@@ -2,6 +2,7 @@ package fr.world;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Random;
 import java.util.Vector;//ajouté
 
 import org.newdawn.slick.Color;
@@ -15,6 +16,7 @@ import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.ResourceLoader;
+import java.util.Random;
 
 import fr.util.Rectangle;
 
@@ -31,6 +33,9 @@ public class Decor extends BasicGameState {
 	private Background background;
 	private Cloud backgroundCloud;
 	private Cloud backgroundCloud2;
+	
+	private int negativeLimit;
+	private int positiveLimit;
 	
 	
 	
@@ -65,12 +70,56 @@ public class Decor extends BasicGameState {
 		characterPosY = posY;
 	}
 	
+	public void generatePlateform(float charPosX)
+	{
+		Random rand = new Random();
+		Vector<Integer> positions = new Vector<Integer>();
+		Vector<Integer> sizes = new Vector<Integer>();
+		
+		for (int i = 0; i < 10; ++i)
+		{
+			boolean ok = false;
+			
+			while (!ok)
+			{
+				int posX = rand.nextInt(25) * 32 + (int)charPosX;
+				int posY = rand.nextInt(16) * 32;
+				int sizeX = rand.nextInt(8) + 3;
+				int sizeY = rand.nextInt(2) + 1;
+				
+				for (int j = 0; j < positions.size()/2; ++j)
+				{
+					if (Math.abs(posX - positions.get(j * 2)) < (sizeX + sizes.get(j * 2))*32 / 2 &&
+							Math.abs(posY - positions.get(j * 2 + 1)) < (sizeY + sizes.get(j * 2 + 1))*32 / 2)
+					{
+						ok = true;
+						break;
+					}
+				}
+				
+				if (!ok)
+				{
+					positions.add(posX);
+					positions.add(posY);
+					sizes.add(sizeX);
+					sizes.add(sizeY);
+					createPlateform(posX, posY , sizeX, sizeY);
+					ok = true;
+				}
+			}
+		}
+	}
+	
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
 		//TODO
 		createPlateform(-100,600-32,100, 1);	//sol
-		createPlateform(100, 200, 6, 1);	//plateforme volante
-		createPlateform(400, 300 ,4, 1);	//plateforme volante
+		generatePlateform(-800);
+		generatePlateform(0);
+		generatePlateform(800);
+		
+		negativeLimit = -1;
+		positiveLimit = 1;
 	}
 
 	@Override
@@ -104,15 +153,24 @@ public class Decor extends BasicGameState {
 		    }
 		}*/
 		//maj du fond d'écran
-		background.setPosition(background.getX(), characterPosY);
-		background.setCharacterPosition(characterPosX, characterPosY);
-		background.update(container, game, delta);
+		background.setPosition(characterPosX, characterPosY);
 		backgroundCloud.setPosition(backgroundCloud.getX(), characterPosY + 20);
 		backgroundCloud.setCharacterPosition(characterPosX, characterPosY);
 		backgroundCloud.update(container, game, delta);
 		backgroundCloud2.setPosition(backgroundCloud2.getX(), characterPosY + 100);
 		backgroundCloud2.setCharacterPosition(characterPosX, characterPosY);
 		backgroundCloud2.update(container, game, delta);
+		
+		if (characterPosX > positiveLimit * 800)
+		{
+			positiveLimit++;
+			generatePlateform(800 * positiveLimit);
+		}
+		else if (characterPosX < (negativeLimit + 1) * 800)
+		{
+			negativeLimit--;
+			generatePlateform(800 * negativeLimit);
+		}
 	}
 	
 	public void keyReleased(int key, char c) {
