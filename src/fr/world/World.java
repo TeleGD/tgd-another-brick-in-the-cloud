@@ -27,7 +27,7 @@ public class World extends BasicGameState{
 		enemies = new ArrayList<Enemy>();
 		enemyTest = new Enemy();
 		projectiles = new ArrayList<Weapon>();
-		decor = new Decor("assets/box.png","assets/background.png");
+		decor = new Decor("assets/brique.png","assets/background.png");
 		decor.init(container,game);
 		
 	}

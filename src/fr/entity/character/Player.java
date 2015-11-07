@@ -8,8 +8,10 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import fr.entity.weapon.Weapon;
+import fr.util.Collisions;
 import fr.util.Movable;
 import fr.util.Rectangle;
+import fr.world.World;
 
 public class Player extends Movable implements Rectangle {
 	
@@ -19,6 +21,7 @@ public class Player extends Movable implements Rectangle {
 	private boolean direction;
 	private int stillPressed;
 	private int stockWeapon;
+	private int life;
 	
 	public Player() {
 		x = 384;
@@ -27,6 +30,7 @@ public class Player extends Movable implements Rectangle {
 		speedY = 0;
 		accelX = 0;
 		accelY = 0.06;
+		life = 3;   
 		width = 32;
 		height = 32;
 		jump = false;
@@ -90,8 +94,8 @@ public class Player extends Movable implements Rectangle {
 			jump = false;
 		}
 
-		if (y >= 600 - height) {// le perso est au sol
-			y = 600 - height;
+		if (y >= 600 - height-32) {// le perso est au sol
+			y = 600 - height-32;
 			jumpLeft = jumpMax;
 		}
 		if (y < 0) {// le perso a mal a la tete
@@ -149,4 +153,9 @@ public class Player extends Movable implements Rectangle {
 		}
 	}
 	
+	void damagePlayer(){
+		if (Collisions.isCollisionRectRect(this, World.getEnemies().get(0))){
+			life -= 1;
+		}
+	}
 }
