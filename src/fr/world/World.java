@@ -8,9 +8,9 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-
-import fr.entity.character.Player;
 import fr.entity.character.Enemy;
+import fr.entity.character.Player;
+import fr.entity.weapon.Weapon;
 
 public class World extends BasicGameState{
 	

@@ -1,24 +1,27 @@
 package fr.entity.character;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import fr.entity.weapon.Weapon;
 import fr.util.Movable;
 import fr.util.Rectangle;
 
 public class Player extends Movable implements Rectangle {
-
+	
 	private boolean keyPressedLeft;
 	private boolean keyPressedRight;
 	private boolean lastKeyPressed;
 	private int stillPressed;
+	 
 	
 	public Player() {
 		x = 384;
-		y = 568;
+		y = 536;
 		speedX = 0;
 		speedY = 0;
 		accelX = 0;
@@ -33,10 +36,12 @@ public class Player extends Movable implements Rectangle {
 		keyPressedLeft = false;
 		keyPressedRight = false;
 		lastKeyPressed = false; // false = gauche true = droite
-		stillPressed = 0; // 0 = rien      1 = gauche toujours presse      2 = droite toujours presse
+		stillPressed = 0;// 0 = rien      1 = gauche toujours presse      2 = droite toujours presse
+		
 	}
 
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
+		g.setColor(Color.cyan);
 		g.fillRect((float) x, (float) y, (float) width, (float) height);
 	}
 
@@ -54,12 +59,8 @@ public class Player extends Movable implements Rectangle {
 			}
 			keyPressedRight = false;
 		}
-		if (keyPressedLeft) {
-			speedX = -0.5;
-		}
-		if (keyPressedRight) {
-			speedX = 0.5;
-		}
+		if (keyPressedLeft)  { speedX = -0.5; }
+		if (keyPressedRight) {	speedX = 0.5; }
 		
 		switch(stillPressed){
 		case 1 :
@@ -111,6 +112,8 @@ public class Player extends Movable implements Rectangle {
 
 	public void keyPressed(int key, char c) {
 		switch (key) {
+		
+		//deplacements
 		case Input.KEY_UP:
 			jump = true;
 			break;
@@ -122,6 +125,21 @@ public class Player extends Movable implements Rectangle {
 			keyPressedRight = true;
 			lastKeyPressed = true;
 			break;
+			
+		//saut
+		case Input.KEY_T:
+			jumpPower = 4;
+			break;
+		case Input.KEY_H:
+			jumpPower = 0.06;
+			break;
+			
+			
+		//attaque
+		case Input.KEY_A:
+			new Weapon(this.x,this.y);
+			break;
 		}
 	}
+	
 }
