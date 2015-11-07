@@ -5,6 +5,7 @@ import java.util.Random;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -22,39 +23,66 @@ public class Enemy extends Movable implements Rectangle {
 	private int id;
 	private int numberFrame = 0;
 	private int i; //  Variable pour un compteur
-	private int agroDistance = 90;
-	private int agroShootDistance = 400;
+	private int agroDistance = 120;
 	private boolean gauche;
+	private Image arret, marched, marcheg;
 	
 	public Enemy () {
 	super(); // récupère les attributs de la classe Movable
 	hp = 1; // On donne une valeur à hp
 	x = r.nextInt(800-(int)width); // On place l'ennemi à une position aléatoire sur l'axe x
 	testXPlayer(); // On vérifie qu'on ne fait pas spawn SUR le joueur (reste à gérer les obstacles)
-	y = 600-32-(int)height; // On pose l'ennemi sur le sol
+	y = 600-74; // On pose l'ennemi sur le sol /!\ Gestion de la collision gravité avec les plateformes à débugger.
 	accelX = 0.02*r.nextDouble() + 0.005; // Accélération aléatoire définie ici (entre 0.025 et 0.005)
 	speedMax = (r.nextInt(14))/500 + 0.2; // vitesse max aléatoire définie ici entre 1 et 15 (ou 14)
 	isMoving = true; // Un booleen au cas où le joueur puisse arrêter le déplacement de l'ennemi
 	World.getEnemies().add(this); //On ajoute l'ennemi actuel à la liste des ennemis
 	id = numberEnemy; // On donne une id à notre ennemi
 	numberEnemy++; // On incrémente le nombre d'ennemis déjà créés
+	try {
+	arret = new Image("D:/Camille/Documents/Coding night/IMAGEEEEEE/tgd-cn-v/mechant_milieu_poignee_verso.png");
+	marcheg = new Image("D:/Camille/Documents/Coding night/IMAGEEEEEE/tgd-cn-v/mechant_droite_poignee_verso.png");
+	marched = new Image("D:/Camille/Documents/Coding night/IMAGEEEEEE/tgd-cn-v/mechant_gauche_poignee_verso.png");
+	}catch(SlickException e){}
 	}
 	
 	Random r = new Random(); // On se crée une variable pour utiliser la fonction random
 	
-	
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException { // gestion de l'affichage
-		g.setColor(Color.magenta); // Rectangle de test type ennemi de couleur magenta (ici on choisit la couleur du pinceau)
-		g.fillRect((float)x, (float)y, (float)width, (float)height); // On créé le rectangle
+		//g.setColor(Color.magenta); // Rectangle de test type ennemi de couleur magenta (ici on choisit la couleur du pinceau)
+		//g.fillRect((float)x, (float)y, (float)width, (float)height); // On créé le rectangle
+		g.drawImage(arret, (float)x, (float)y-16);
+		/*if (gauche){
+			if ((numberFrame/30)%4==0 || (numberFrame/30)%4==2){
+				g.drawImage(arret, (float)x, (float)y-16);
+			}
+			if ((numberFrame/30)%4==1){
+				g.drawImage(marcheg, (float)x, (float)y-16);
+			}
+			else{
+				g.drawImage(marched,  (float)x,  (float)y-16);
+			}
+		}*/
 	}
 	
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException { // gestion des updates à chaque frame
+		accelY=0.004;
+		fallHandling();
+		if (speedX>=0){
+			gauche = false;
+		}
+		else{
+			gauche = true;
+		}
+		speedY+=accelY;
 		moveX(delta);
+		moveY(delta);
 		limitX();
-		shoot();
 		damageEnemy();
 		deathEnemy();
 		backX();
+		backY();
+		shoot();
 		initiative();
 		numberFrame++;
 	}
@@ -106,12 +134,19 @@ public class Enemy extends Movable implements Rectangle {
 		}
 	}
 
-	
 	public void backX(){ //gère la collision sur les bords de la map OK
 		if (x>768 || x<0)
 		{
 			accelX=-accelX; // On change de direction en cas de frappage de bord de map
 			speedX=-speedX; // Pour la vitesse et l'accélération
+		}
+		for (i = 0 ; i <= World.getPlateforms().size() - 1 ; i++){ //change de sens si collision contre plateforme
+			if (Collisions.isCollisionRectRect(this,World.getPlateforms().get(i))){
+				if (x+this.width<=World.getPlateforms().get(i).getX() || x>=World.getPlateforms().get(i).getX()+World.getPlateforms().get(i).getWidth()){
+					speedX=-speedX;
+					accelX=-accelX;
+				}
+			}
 		}
 	}
 	
@@ -125,13 +160,31 @@ public class Enemy extends Movable implements Rectangle {
 				speedX=-Math.abs(speedX); // On se dirige vers la gauche
 				accelX=-Math.abs(accelX); // On accélère vers la gauche
 			}
-				
 		}
 	}
 	
-	public void fallHandling(){ //gestion de la chute (on attend la liste des obstacles)
+	public void fallHandling(){ //gestion de la chute sur les obstacles
 		{
-			
+			/*for (i = 0 ; i <= World.getPlateforms().size()-1 ; i++){
+				if(Collisions.isCollisionRectRect(this,World.getPlateforms().get(i))){
+					if(World.getPlateforms().get(i).getY()+World.getPlateforms().get(i).getHeight()>y){ //collision lors d'un saut
+						speedY=-speedY;
+					}
+					if(World.getPlateforms().get(i).getY()<y+height-7){ //collision gravité
+						accelY=0;
+						y--;
+						speedY=0;
+					}
+				}
+			}*/
+			for (i=0;i<=World.getPlateforms().size()-1;i++){
+				if (Collisions.isCollisionRectRect(this, World.getPlateforms().get(i))){
+					if (y+height-7<=World.getPlateforms().get(i).getY()-1){
+						accelY=0;
+						speedY=0;
+					}
+				}
+			}
 		}
 	}
 	
@@ -139,12 +192,18 @@ public class Enemy extends Movable implements Rectangle {
 		if (numberFrame%100==0){
 			if(speedX>0)
 			{
-			   new Weapon(this.x+1,this.y+10, !gauche);
+			   new Weapon(this.x+33,this.y+20, !gauche);
 			}
 			if (speedX<=0)
 			{
-				new Weapon(this.x-33,this.y+10,gauche);
+				new Weapon(this.x-1,this.y+20,gauche);
 			}
+		}
+	}
+	
+	public void backY(){ //on touche plus au sol (enfin si mais bref)
+		if (y >= 600 - height - World.getPlateforms().get(0).getHeight() - 7){
+			y = 600 - height - World.getPlateforms().get(0).getHeight()- 7 - 1;
 		}
 	}
 }
