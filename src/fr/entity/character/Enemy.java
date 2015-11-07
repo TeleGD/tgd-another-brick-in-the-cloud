@@ -28,7 +28,7 @@ public class Enemy extends Movable implements Rectangle {
 	
 	public Enemy () {
 	super(); // récupère les attributs de la classe Movable
-	hp = 2; // On donne une valeur à hp
+	hp = 1; // On donne une valeur à hp
 	x = r.nextInt(800-(int)width); // On place l'ennemi à une position aléatoire sur l'axe x
 	testXPlayer(); // On vérifie qu'on ne fait pas spawn SUR le joueur (reste à gérer les obstacles)
 	y = 600-32-(int)height; // On pose l'ennemi sur le sol

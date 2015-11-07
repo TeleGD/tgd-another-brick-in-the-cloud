@@ -21,6 +21,7 @@ public class Player extends Movable implements Rectangle {
 	private boolean direction;
 	private boolean noDamage; // pour la frame d'invulnérabilité
 	private boolean end;
+	private boolean collision; 
 	private int stillPressed;
 	private int stockWeapon;
 	private int life;
@@ -37,7 +38,7 @@ public class Player extends Movable implements Rectangle {
 		width = 32;
 		height = 32;
 		jump = false;
-		jumpMax = 1;
+		jumpMax = 2;
 		jumpLeft = jumpMax;
 		jumpPower = 0.065;
 		isMoving = true;
@@ -55,9 +56,12 @@ public class Player extends Movable implements Rectangle {
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		g.setColor(Color.cyan);
 		g.fillRect((float) x, (float) y, (float) width, (float) height);
+		g.setColor(Color.white);
+		g.drawString(Integer.toString(life), 300, 300);
 	}
 
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+
 		speedY += accelY;
 		
 		// mouvements droite gauche
@@ -86,27 +90,50 @@ public class Player extends Movable implements Rectangle {
 		}
 		
 		moveX(delta);
-		if (x > 800 - width) {
-			x = 800 - width;
+		damagePlayer();
+		collision = false;	
+		for(int i = 0;i<World.getPlateforms().size();i++){	
+			if(Collisions.isCollisionRectRect(this, World.getPlateforms().get(i)))
+				collision = true;
 		}
-		if (x < 0) {
-			x = 0;
+		if(collision){
+			x = oldX;
+		}else{
+		    oldX = x;
 		}
 
 		moveY(delta);
+		collision = false;	
+		for(int i = 0;i<World.getPlateforms().size();i++){	
+			if(Collisions.isCollisionRectRect(this, World.getPlateforms().get(i))){
+				collision = true;
+				if(y < World.getPlateforms().get(i).getY()){
+					jumpLeft = jumpMax;
+				}else{
+					jumpLeft = 0;
+				}
+			}
+		}
+		
+		if(collision){
+			y = oldY;
+			speedY = 0;
+		}else{
+			oldY = y;
+		}
+		
+		
 
+		//saut
 		if (jump) {
 			jump(delta);
 			jump = false;
 		}
-
-		if (y >= 600 - height-32) {// le perso est au sol
-			y = 600 - height-32;
+		if (y >= 600 - height) {// le perso est au sol
+			y = 600 - height;
 			jumpLeft = jumpMax;
 		}
-		if (y < 0) {// le perso a mal a la tete
-			y = 0;
-		}
+		
 		
 		// dégats
 		if ( noDamage ){
@@ -116,11 +143,9 @@ public class Player extends Movable implements Rectangle {
 			noDamage = false;
 			compteurFrame = 0;
 		}	
-		damagePlayer();
 		
 		//game over
 		if ( end ){
-			System.out.println("mohd");
 			container.exit();
 		}
 	}
@@ -176,13 +201,30 @@ public class Player extends Movable implements Rectangle {
 	}
 	
 	void damagePlayer(){
-		if(World.getEnemies().size() >= 1)
-		if (Collisions.isCollisionRectRect(this, World.getEnemies().get(0)) && !noDamage ){
-			life -= 1;
-			noDamage = true;
+		//degats ennemis
+		for (int i = 0; i< World.getEnemies().size(); i++)
+		{
+			if (Collisions.isCollisionRectRect(this, World.getEnemies().get(i)) && !noDamage){
+				life -= 1;
+				noDamage = true;
+				System.out.println("Degat");
+			}
 		}
+		
+		//degats projectiles 
+		for (int i = 0; i< World.getProjectiles().size(); i++)
+		{
+			if (Collisions.isCollisionRectRect(this, World.getProjectiles().get(i)) && !noDamage){
+				life -= 1;
+				noDamage = true;
+			}
+		}
+		
 		if ( life == 0 ){
 			end = true;
 		}
 	}
+	
+	
+	
 }
