@@ -30,13 +30,13 @@ public class Plateform extends BasicGameState implements Rectangle {
 	
 	public double getWidth()
 	{
-		return sizeX;
+		return sizeX*32;
 		
 	}
 	
 	public double getHeight()
 	{
-		return sizeY;
+		return sizeY*32;
 	}
 	
 	public void setPosition(float newPositionX,float newPositionY)
