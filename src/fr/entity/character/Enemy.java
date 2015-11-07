@@ -8,6 +8,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import fr.entity.weapon.Weapon;
 import fr.util.Collisions;
 import fr.util.Movable;
 import fr.util.Rectangle;
@@ -19,12 +20,15 @@ public class Enemy extends Movable implements Rectangle {
 	private int hp; // Points de vie des ennemis, à 1 pour commencer.
 	private static int numberEnemy = 0; // On numérote nos ennemis pour pouvoir gérer leur suppression via une liste.
 	private int id;
+	private int numberFrame = 0;
 	private int i; //  Variable pour un compteur
-	private int agroDistance = 50;
+	private int agroDistance = 90;
+	private int agroShootDistance = 400;
+	private boolean gauche;
 	
 	public Enemy () {
 	super(); // récupère les attributs de la classe Movable
-	hp = 1; // On donne une valeur à hp
+	hp = 2; // On donne une valeur à hp
 	x = r.nextInt(800-(int)width); // On place l'ennemi à une position aléatoire sur l'axe x
 	testXPlayer(); // On vérifie qu'on ne fait pas spawn SUR le joueur (reste à gérer les obstacles)
 	y = 600-32-(int)height; // On pose l'ennemi sur le sol
@@ -47,10 +51,12 @@ public class Enemy extends Movable implements Rectangle {
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException { // gestion des updates à chaque frame
 		moveX(delta);
 		limitX();
+		shoot();
 		damageEnemy();
 		deathEnemy();
-		initiative();
 		backX();
+		initiative();
+		numberFrame++;
 	}
 	
 	public void testXPlayer(){ //permet de reset position au spawn si collision ac joueur : OK
@@ -69,19 +75,22 @@ public class Enemy extends Movable implements Rectangle {
 	public void damageEnemy(){ //diminue les points de vie si on subit des dégâts OK
 		if (Collisions.isCollisionRectRect(this, World.getPlayer())) // Si on collisionne le player
 		{
-			if (y>= World.getPlayer().getY()) // Si on est en dessous du player
+			if (y> World.getPlayer().getY()) // Si on est en dessous du player
 			{
 				hp--; // On perd un hp
 			}
 		}
-		for (i = 0; i< World.getProjectiles().size(); i++){
-			if (Collisions.isCollisionRectRect(this,World.getProjectiles().get(i))){
+		for (i = 0; i< World.getProjectiles().size(); i++)
+		{
+			if (Collisions.isCollisionRectRect(this,World.getProjectiles().get(i)))
+			{
 				hp--;
 			}
 		}
 		if (y>600) // Si on sort de l'écran par le bas
 		{
 			hp = 0; // On passe à 0 hp
+			
 		}
 	}
 	
@@ -107,7 +116,7 @@ public class Enemy extends Movable implements Rectangle {
 	}
 	
 	public void initiative(){ //l'ennemi se dirige vers le joueur en dessous d'une certaine distance OK
-		if ((Math.abs(x-World.getPlayer().getX()) <= agroDistance) && (Math.abs(y-World.getPlayer().getY()) <= agroDistance)){ // Si la distance en abscisse et en ordonnée est inférieure à la distance d'agro
+		if (Math.sqrt((Math.pow(x-World.getPlayer().getX(),2)+Math.pow(y-World.getPlayer().getY(),2))) <= agroDistance){ // Si la distance en module est inférieure à la distance d'agro
 			if (x-World.getPlayer().getX() <= 0){ // Si on est à gauche du joueur
 				speedX=Math.abs(speedX); // On se dirige vers la droite
 				accelX=Math.abs(accelX); // On accélère vers la droite
@@ -125,5 +134,17 @@ public class Enemy extends Movable implements Rectangle {
 			
 		}
 	}
-
+	
+	public void shoot(){ //tire OK
+		if (numberFrame%100==0){
+			if(speedX>0)
+			{
+			   new Weapon(this.x+1,this.y+10, !gauche);
+			}
+			if (speedX<=0)
+			{
+				new Weapon(this.x-33,this.y+10,gauche);
+			}
+		}
+	}
 }
