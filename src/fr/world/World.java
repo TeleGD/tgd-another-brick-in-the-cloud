@@ -19,7 +19,9 @@ public class World extends BasicGameState{
 	private static ArrayList<Enemy> enemies;
 	private static Enemy enemyTest;
 	private static ArrayList<Weapon> projectiles;
+	private static ArrayList<Plateform> plateforms;
 	private Decor decor;
+	
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
@@ -29,6 +31,7 @@ public class World extends BasicGameState{
 		projectiles = new ArrayList<Weapon>();
 		decor = new Decor("assets/brique.png","assets/background.png");
 		decor.init(container,game);
+		plateforms = new ArrayList<Plateform>();
 		
 	}
 
@@ -87,6 +90,9 @@ public class World extends BasicGameState{
 	}
 	public static ArrayList<Weapon> getProjectiles(){
 		return projectiles;
+	}
+	public static ArrayList<Plateform> getPlateforms(){
+		return plateforms;
 	}
 	
 	
