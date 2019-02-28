@@ -9,7 +9,7 @@ import fr.menu.Menu;
 import fr.menu.GameOver;
 
 public class Game extends StateBasedGame {
-	
+
 
 	public static void main(String[] args) throws SlickException {
 		AppGameContainer app = new AppGameContainer(new Game(),800, 600, false);
@@ -32,4 +32,3 @@ public class Game extends StateBasedGame {
 	}
 
 }
-

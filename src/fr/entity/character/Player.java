@@ -14,19 +14,19 @@ import fr.util.Rectangle;
 import fr.world.World;
 
 public class Player extends Movable implements Rectangle {
-	
+
 	private boolean keyPressedLeft;
 	private boolean keyPressedRight;
 	private boolean lastKeyPressed;
 	private boolean direction;
-	private boolean noDamage; // pour la frame d'invulnérabilité
+	private boolean noDamage; // pour la frame d'invulnÃ©rabilitÃ©
 	private boolean end;
-	private boolean collision; 
+	private boolean collision;
 	private int stillPressed;
 	private int stockWeapon;
 	private int life;
 	private int compteurFrame;
-	
+
 	public Player() {
 		x = 384;
 		y = 0;
@@ -34,7 +34,7 @@ public class Player extends Movable implements Rectangle {
 		speedY = 0;
 		accelX = 0;
 		accelY = 0.06;
-		life = 3;   
+		life = 3;
 		width = 32;
 		height = 32;
 		jump = false;
@@ -63,7 +63,7 @@ public class Player extends Movable implements Rectangle {
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 
 		speedY += accelY;
-		
+
 		// mouvements droite gauche
 		stillPressed = 0;
 		if (lastKeyPressed) {
@@ -79,7 +79,7 @@ public class Player extends Movable implements Rectangle {
 		}
 		if (keyPressedLeft)  { speedX = -0.5; direction = false; }
 		if (keyPressedRight) {	speedX = 0.5; direction = true; }
-		
+
 		switch(stillPressed){
 		case 1 :
 			keyPressedLeft = true;
@@ -88,11 +88,11 @@ public class Player extends Movable implements Rectangle {
 			keyPressedRight = true;
 			break;
 		}
-		
+
 		moveX(delta);
 		damagePlayer();
-		collision = false;	
-		for(int i = 0;i<World.getPlateforms().size();i++){	
+		collision = false;
+		for(int i = 0;i<World.getPlateforms().size();i++){
 			if(Collisions.isCollisionRectRect(this, World.getPlateforms().get(i)))
 				collision = true;
 		}
@@ -103,8 +103,8 @@ public class Player extends Movable implements Rectangle {
 		}
 
 		moveY(delta);
-		collision = false;	
-		for(int i = 0;i<World.getPlateforms().size();i++){	
+		collision = false;
+		for(int i = 0;i<World.getPlateforms().size();i++){
 			if(Collisions.isCollisionRectRect(this, World.getPlateforms().get(i))){
 				collision = true;
 				if(y < World.getPlateforms().get(i).getY()){
@@ -114,15 +114,15 @@ public class Player extends Movable implements Rectangle {
 				}
 			}
 		}
-		
+
 		if(collision){
 			y = oldY;
 			speedY = 0;
 		}else{
 			oldY = y;
 		}
-		
-		
+
+
 
 		//saut
 		if (jump) {
@@ -133,17 +133,17 @@ public class Player extends Movable implements Rectangle {
 			y = 600 - height;
 			jumpLeft = jumpMax;
 		}
-		
-		
-		// dégats
+
+
+		// dï¿½gats
 		if ( noDamage ){
 			compteurFrame+=1;
-		}		
+		}
 		if(compteurFrame==120){
 			noDamage = false;
 			compteurFrame = 0;
-		}	
-		
+		}
+
 		//game over
 		if ( end ){
 			container.exit();
@@ -167,7 +167,7 @@ public class Player extends Movable implements Rectangle {
 
 	public void keyPressed(int key, char c) {
 		switch (key) {
-		
+
 		//deplacements
 		case Input.KEY_UP:
 			jump = true;
@@ -180,7 +180,7 @@ public class Player extends Movable implements Rectangle {
 			keyPressedRight = true;
 			lastKeyPressed = true;
 			break;
-			
+
 		//saut
 		case Input.KEY_T:
 			jumpPower = 4;
@@ -188,8 +188,8 @@ public class Player extends Movable implements Rectangle {
 		case Input.KEY_H:
 			jumpPower = 0.06;
 			break;
-			
-			
+
+
 		//attaque
 		case Input.KEY_A:
 			if(stockWeapon>0){
@@ -199,7 +199,7 @@ public class Player extends Movable implements Rectangle {
 			break;
 		}
 	}
-	
+
 	void damagePlayer(){
 		//degats ennemis
 		for (int i = 0; i< World.getEnemies().size(); i++)
@@ -210,8 +210,8 @@ public class Player extends Movable implements Rectangle {
 				System.out.println("Degat");
 			}
 		}
-		
-		//degats projectiles 
+
+		//degats projectiles
 		for (int i = 0; i< World.getProjectiles().size(); i++)
 		{
 			if (Collisions.isCollisionRectRect(this, World.getProjectiles().get(i)) && !noDamage){
@@ -219,12 +219,12 @@ public class Player extends Movable implements Rectangle {
 				noDamage = true;
 			}
 		}
-		
+
 		if ( life == 0 ){
 			end = true;
 		}
 	}
-	
-	
-	
+
+
+
 }

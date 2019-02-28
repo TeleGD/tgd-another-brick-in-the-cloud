@@ -12,7 +12,7 @@ import fr.util.Rectangle;
 import fr.world.World;
 
 public class Weapon extends Movable implements Rectangle {
-	
+
     public Weapon(double X, double Y, boolean direction) {
     	y=Y+10;
     	if ( direction ){
@@ -23,11 +23,11 @@ public class Weapon extends Movable implements Rectangle {
     		x = X;
     		speedX = -1;
     	}
-    	
+
     	width = 11;
 		height = 5;
 		World.getProjectiles().add(this);
-		
+
 		isMoving = true;
     }
 
@@ -35,12 +35,12 @@ public class Weapon extends Movable implements Rectangle {
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		g.setColor(Color.red);
 		g.fillRect((float) x, (float) y, (float) width, (float) height);
-		
+
 	}
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-		
+
 		moveX(delta);
 	}
 

@@ -8,7 +8,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import fr.entity.Entity;
 
 public class Wall extends Entity{
-	
+
 	public Wall(double x,double y,double width,double height){
 		//TODO
 	}

@@ -10,52 +10,52 @@ import org.newdawn.slick.state.StateBasedGame;
 import fr.util.Rectangle;
 
 public class Plateform extends BasicGameState implements Rectangle {
-	
+
 	private double sizeX;	//nombre de tuiles suivant x
 	private double sizeY;	//nombre de tuiles suivant y
 	private double positionX;	//en pixel
 	private double positionY;	//en pixel
 	Image texture;
-	
+
 	public double getX()
 	{
 		return positionX;
-		
+
 	}
-	
+
 	public double getY()
 	{
 		return positionY;
 	}
-	
+
 	public double getWidth()
 	{
 		return sizeX*32;
-		
+
 	}
-	
+
 	public double getHeight()
 	{
 		return sizeY*32;
 	}
-	
+
 	public void setPosition(float newPositionX,float newPositionY)
 	{
 		positionX = newPositionX;
 		positionY = newPositionY;
 	}
-	
+
 	public void setSize(float newSizeX, float newSizeY)
 	{
 		sizeX = newSizeX;
 		sizeY = newSizeY;
 	}
-	
-	
-	
+
+
+
 
 	public Plateform(float sizeX, float sizeY, float positionX, float positionY, Image tex) {
-		
+
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
 		this.positionX = positionX;
@@ -82,7 +82,7 @@ public class Plateform extends BasicGameState implements Rectangle {
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		//TODO
 	}
-	
+
 	public void keyReleased(int key, char c) {
 		//TODO
 	}

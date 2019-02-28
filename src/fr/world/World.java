@@ -13,7 +13,7 @@ import fr.entity.character.Player;
 import fr.entity.weapon.Weapon;
 
 public class World extends BasicGameState{
-	
+
 	public enum direction {HAUT,DROITE,BAS,GAUCHE};
 	private static Player player;
 	private static ArrayList<Enemy> enemies;
@@ -22,8 +22,8 @@ public class World extends BasicGameState{
 	private static ArrayList<Plateform> plateforms;
 	private Decor decor;
 	public static int ID = 0;
-	
-	
+
+
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
 		player = new Player();
@@ -31,10 +31,10 @@ public class World extends BasicGameState{
 		enemyTest = new Enemy();
 		projectiles = new ArrayList<Weapon>();
 		plateforms = new ArrayList<Plateform>();
-		decor = new Decor("assets/brick.png","assets/background.png", "assets/cloud.png");
+		decor = new Decor("images/brick.png","images/background.png", "images/cloud.png");
 		decor.init(container,game);
-		
-		
+
+
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class World extends BasicGameState{
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		decor.updateCharacterPosition((int)player.getX(), (int)player.getY());
-		
+
 		decor.update(container,game,delta);
 		player.update(container, game, delta);
 		for(int i = 0; i<enemies.size();i++){
@@ -62,7 +62,7 @@ public class World extends BasicGameState{
 			projectiles.get(i).update(container, game, delta);
 		}
 	}
-	
+
 	public void keyReleased(int key, char c) {
 		player.keyReleased(key, c);
 		decor.keyReleased(key,c);
@@ -86,7 +86,7 @@ public class World extends BasicGameState{
 	public static void setPlayer(Player playerP) {
 		player = playerP;
 	}
-	
+
 	public static ArrayList<Enemy> getEnemies(){
 		return enemies;
 	}
@@ -95,6 +95,5 @@ public class World extends BasicGameState{
 	}
 	public static ArrayList<Plateform> getPlateforms(){
 		return plateforms;
-	}	
+	}
 }
-

@@ -11,7 +11,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import fr.world.World;
 
 public class Menu extends BasicGameState{
-	
+
 	Image buttonPlay;
 	Image buttonExit;
 	Image pointeur;
@@ -20,14 +20,14 @@ public class Menu extends BasicGameState{
 	static StateBasedGame game;
 	static GameContainer container;
 	public static int ID = 1;
-	
-	
+
+
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-		buttonPlay = new Image("assets/buttonJouer.png");
-		buttonExit = new Image("assets/buttonExit.png");
-		pointeur = new Image("assets/pointer.png");
+		buttonPlay = new Image("images/buttonJouer.png");
+		buttonExit = new Image("images/buttonExit.png");
+		pointeur = new Image("images/pointer.png");
 		selection = 0;
 		nbrOption = 2;
 		this.game = game;
@@ -37,20 +37,20 @@ public class Menu extends BasicGameState{
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
-		
+
 		g.drawString("Very Bad WEI", 100, 50);
 		buttonPlay.draw(150, 170);
 		buttonExit.draw(150, 270);
 		pointeur.draw(80,200+selection*100);
-		
-		
+
+
 	}
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class Menu extends BasicGameState{
 		// TODO Auto-generated method stub
 		return ID;
 	}
-	
+
 	public void keyPressed(int key, char c) {
 		switch (key) {
 		case Input.KEY_DOWN: case Input.KEY_S:
@@ -81,7 +81,7 @@ public class Menu extends BasicGameState{
 			break;
 		}
 	}
-	
+
 	public void execOption() {
 		switch (selection) {
 		case 0:
@@ -91,8 +91,8 @@ public class Menu extends BasicGameState{
 			container.exit();
 		}
 	}
-	
-	
-	
+
+
+
 
 }

@@ -20,35 +20,35 @@ public class GameOver extends BasicGameState{
 	static StateBasedGame game;
 	static GameContainer container;
 	public static int ID = 2;
-	
+
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-		buttonReplay = new Image("assets/buttonRejouer.png");
-		buttonExit = new Image("assets/buttonExit.png");
-		pointeur = new Image("assets/pointer.png");
+		buttonReplay = new Image("images/buttonRejouer.png");
+		buttonExit = new Image("images/buttonExit.png");
+		pointeur = new Image("images/pointer.png");
 		selection = 0;
 		nbrOption = 2;
-		
+
 	}
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
-		
+
 		g.drawString("Game Over", 100, 50);
-		g.drawString("C'était mieux avant !!!",100,70);
+		g.drawString("C'Ã©tait mieux avant !!!",100,70);
 		buttonReplay.draw(150, 170);
 		buttonExit.draw(150, 270);
 		pointeur.draw(80,200+selection*100);
-		
+
 	}
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class GameOver extends BasicGameState{
 		// TODO Auto-generated method stub
 		return ID;
 	}
-	
+
 	public void keyPressed(int key, char c) {
 		switch (key) {
 		case Input.KEY_DOWN: case Input.KEY_S:
@@ -79,7 +79,7 @@ public class GameOver extends BasicGameState{
 			break;
 		}
 	}
-	
+
 	public void execOption() {
 		switch (selection) {
 		case 0:
@@ -89,11 +89,11 @@ public class GameOver extends BasicGameState{
 			container.exit();
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
 }

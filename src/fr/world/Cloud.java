@@ -16,25 +16,25 @@ public class Cloud extends BasicGameState{
 	private float charY;
 	private Image texture;
 	float speed;
-	
+
 	float getX()
 	{
 		return positionX;
-		
+
 	}
-	
+
 	float getY()
 	{
 		return positionY;
-		
+
 	}
-	
+
 	void setPosition(float newPositionX,float newPositionY)
 	{
 		positionX = newPositionX;
 		positionY = newPositionY;
 	}
-	
+
 	void setCharacterPosition(float newCharX,float newCharY)
 	{
 		charX = newCharX;
@@ -42,7 +42,7 @@ public class Cloud extends BasicGameState{
 	}
 
 	public Cloud(float positionX, float positionY, Image tex, float speed){
-		
+
 		this.positionX = positionX;
 		this.positionY = positionY;
 		this.texture = tex;
@@ -66,10 +66,10 @@ public class Cloud extends BasicGameState{
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		//TODO
 		positionX += delta * speed;
-		
+
 		positionX = (int)positionX % 800;
 	}
-	
+
 	public void keyReleased(int key, char c) {
 		//TODO
 	}
