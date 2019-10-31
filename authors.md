@@ -1,0 +1,6 @@
+- Adrien Wehrung
+- Étienne Deruelle
+- Guillaume Teset
+- Quentin Seiwert (@saliwan)
+- Taryla
+- TatsumiSan (@TatsumiSan)
