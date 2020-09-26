@@ -1,5 +1,8 @@
 /bin
 /out
-/.idea
-*.iml
-*.log
+/tmp
+/zip
+/*.idea
+/*.iml
+.DS_Store
+Thumbs.db
