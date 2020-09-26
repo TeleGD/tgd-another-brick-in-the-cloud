@@ -1,5 +1,5 @@
 - Adrien Wehrung
-- Camille Menu (@menou2u)
+- Camille Menou (@menou2u)
 - Étienne Deruelle (@EtienneDeruelle)
 - Guillaume Teset (@gteset)
 - Quentin Seiwert (@saliwan)
